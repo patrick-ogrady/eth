@@ -74,7 +74,6 @@ library DarkForestTypes {
 
     // SNARK keys and perlin params
     struct SnarkConstants {
-        bool DISABLE_ZK_CHECKS;
         uint256 PLANETHASH_KEY;
         uint256 SPACETYPE_KEY;
         uint256 BIOMEBASE_KEY;
@@ -271,7 +270,6 @@ library DarkForestTypes {
     struct GameStorage {
         // Contract housekeeping
         DarkForestTokens tokens;
-        // admin controls
         uint256 TARGET4_RADIUS;
         // Game configuration
         DarkForestTypes.SnarkConstants snarkConstants;

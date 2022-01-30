@@ -296,7 +296,6 @@ contract DarkForestCore is Initializable, DarkForestStorageV1 {
 
     function upgradePlanet(uint256 _location, uint256 _branch)
         public
-        notPaused
         returns (uint256, uint256)
     {
         // _branch specifies which of the three upgrade branches player is leveling up
