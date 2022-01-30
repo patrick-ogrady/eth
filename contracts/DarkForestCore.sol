@@ -99,8 +99,7 @@ contract DarkForestCore is Initializable, DarkForestStorageV1 {
             ARTIFACT_POINT_VALUES: initArgs.ARTIFACT_POINT_VALUES
         });
 
-        s.worldRadius = initArgs.INITIAL_WORLD_RADIUS; // will be overridden by TARGET4_RADIUS if !WORLD_RADIUS_LOCKED
-        s.WORLD_RADIUS_LOCKED = initArgs.WORLD_RADIUS_LOCKED;
+        s.worldRadius = initArgs.TARGET4_RADIUS;
         s.TARGET4_RADIUS = initArgs.TARGET4_RADIUS;
 
         DarkForestInitialize.initializeDefaults();
@@ -122,9 +121,7 @@ contract DarkForestCore is Initializable, DarkForestStorageV1 {
 
     // Private helpers that modify state
     function _updateWorldRadius() private {
-        if (!s.WORLD_RADIUS_LOCKED) {
-            s.worldRadius = DarkForestUtils._getRadius();
-        }
+        s.worldRadius = DarkForestUtils._getRadius();
     }
 
     function initializePlanet(

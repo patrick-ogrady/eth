@@ -2,8 +2,7 @@
 # Defined in TOML as per https://toml.io/en/v0.5.0
 
 [initializers]
-TARGET_RADIUS = 1600
-INITIAL_WORLD_RADIUS = 8000
+TARGET4_RADIUS = 1600
 
 ##################################
 # SNARK keys & Perlin parameters #

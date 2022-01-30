@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity ^0.8.0;
 
-import "./Whitelist.sol";
 import "./DarkForestTokens.sol";
 
 library DarkForestTypes {
@@ -105,10 +104,8 @@ library DarkForestTypes {
     }
 
     struct DFInitArgs {
-        bool WORLD_RADIUS_LOCKED;
         uint256 LOCATION_REVEAL_COOLDOWN;
-        uint256 TARGET4_RADIUS; // TODO: change to TARGET_RADIUS
-        uint256 INITIAL_WORLD_RADIUS;
+        uint256 TARGET4_RADIUS;
         // SNARK keys and perlin params
         uint256 PLANETHASH_KEY;
         uint256 SPACETYPE_KEY;
@@ -275,7 +272,6 @@ library DarkForestTypes {
         // Contract housekeeping
         DarkForestTokens tokens;
         // admin controls
-        bool WORLD_RADIUS_LOCKED;
         uint256 TARGET4_RADIUS;
         // Game configuration
         DarkForestTypes.SnarkConstants snarkConstants;
