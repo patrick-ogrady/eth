@@ -90,7 +90,6 @@ async function deploy(
   // late initlialize tokens now that we have corecontract address
   const dftReceipt = await darkForestTokens.initialize(
     coreAddress,
-    controllerWalletAddress,
     `${
       isDev
         ? 'https://nft-test.zkga.me/token-uri/artifact/'

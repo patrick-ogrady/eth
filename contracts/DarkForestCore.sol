@@ -71,7 +71,6 @@ contract DarkForestCore is Initializable, DarkForestStorageV1 {
             240,
             48
         ];
-        s.paused = false;
 
         s.snarkConstants = DarkForestTypes.SnarkConstants({
             PLANETHASH_KEY: initArgs.PLANETHASH_KEY,
@@ -183,9 +182,8 @@ contract DarkForestCore is Initializable, DarkForestStorageV1 {
 
         DarkForestPlanet.revealLocation(
             _input[0],
-            _input[1],
             _input[2],
-            _input[3],
+            _input[3]
         );
         emit LocationRevealed(msg.sender, _input[0], _input[2], _input[3]);
     }
@@ -207,7 +205,7 @@ contract DarkForestCore is Initializable, DarkForestStorageV1 {
             false
         );
 
-        require(DarkForestPlanet.checkPlayerInit(_location, _perlin, _radius));
+        require(DarkForestPlanet.checkPlayerInit(_perlin, _radius));
         // Initialize player data
         s.playerIds.push(msg.sender);
         s.players[msg.sender] = DarkForestTypes.Player(
@@ -353,7 +351,7 @@ contract DarkForestCore is Initializable, DarkForestStorageV1 {
         uint256[2][2] memory _b,
         uint256[2] memory _c,
         uint256[7] memory _input
-    ) public notTokenEnded {
+    ) public {
         uint256 planetId = _input[0];
         uint256 biomebase = _input[1];
 

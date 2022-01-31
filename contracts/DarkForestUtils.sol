@@ -155,8 +155,7 @@ library DarkForestUtils {
 
     function _randomArtifactTypeAndLevelBonus(
         uint256 artifactSeed,
-        DarkForestTypes.Biome biome,
-        DarkForestTypes.SpaceType spaceType
+        DarkForestTypes.Biome biome
     ) internal pure returns (DarkForestTypes.ArtifactType, uint256) {
         uint256 lastByteOfSeed = artifactSeed % 0xFF;
         uint256 secondLastByteOfSeed = ((artifactSeed - lastByteOfSeed) / 256) % 0xFF;

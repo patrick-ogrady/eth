@@ -65,7 +65,7 @@ library DarkForestArtifactUtils {
             );
 
         (DarkForestTypes.ArtifactType artifactType, uint256 levelBonus) =
-            DarkForestUtils._randomArtifactTypeAndLevelBonus(artifactSeed, biome, info.spaceType);
+            DarkForestUtils._randomArtifactTypeAndLevelBonus(artifactSeed, biome);
 
         DarkForestTypes.DFTCreateArtifactArgs memory createArtifactArgs =
             DarkForestTypes.DFTCreateArtifactArgs(

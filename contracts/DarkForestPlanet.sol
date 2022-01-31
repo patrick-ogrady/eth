@@ -101,9 +101,8 @@ library DarkForestPlanet {
 
     function revealLocation(
         uint256 location,
-        uint256 perlin,
         uint256 x,
-        uint256 y,
+        uint256 y
     ) public {
         require(
             block.timestamp - s().players[msg.sender].lastRevealTimestamp >
@@ -125,7 +124,7 @@ library DarkForestPlanet {
         uint256 _location,
         uint256 _perlin,
         bool _isHomePlanet
-    ) public returns (DarkForestTypes.DFPInitPlanetArgs memory) {
+    ) public view returns (DarkForestTypes.DFPInitPlanetArgs memory) {
         (
             uint256 level,
             DarkForestTypes.PlanetType planetType,
@@ -358,7 +357,6 @@ library DarkForestPlanet {
     }
 
     function checkPlayerInit(
-        uint256 _location,
         uint256 _perlin,
         uint256 _radius
     ) public view returns (bool) {
