@@ -59,7 +59,6 @@ export const Initializers = yup
   .object({
     ADMIN_CAN_ADD_PLANETS: yup.boolean().default(false),
     WORLD_RADIUS_LOCKED: yup.boolean().default(false),
-    TOKEN_MINT_END_TIMESTAMP: dateInSeconds().default(oneYearFromNow),
     TARGET4_RADIUS: yup.number().default(800),
     INITIAL_WORLD_RADIUS: yup.number().default(8000),
     /**
@@ -146,8 +145,6 @@ export const Initializers = yup
       .array()
       .length(6)
       .default([0, 2000, 10000, 200000, 3000000, 20000000]),
-    ROUND_NAME: yup.string().required(),
-    ROUND_END: dateInSeconds().required(),
   })
   .defined();
 
@@ -270,20 +267,4 @@ export function load(network: string): { [key: string]: unknown } {
     console.warn(chalk.yellow('Could not find `darkforest.toml` - using defaults.'));
     return {};
   }
-}
-
-// Util for generating a number representing seconds timestamp from input datetime
-function dateInSeconds() {
-  return yup.number().transform(function (value, originalValue) {
-    if (this.isType(value)) return value;
-
-    return Math.floor(new Date(originalValue).getTime() / 1000);
-  });
-}
-
-// Generates the Default for TOKEN_MINT_END_TIMESTAMP
-function oneYearFromNow() {
-  const oneYear = 60 * 60 * 24 * 365 * 1000;
-  // The default doesn't get passed through the transform so we still need to divide by 1000
-  return Math.floor((Date.now() + oneYear) / 1000);
 }
