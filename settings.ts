@@ -49,7 +49,6 @@ export const Contracts = yup
     CORE_CONTRACT_ADDRESS: yup.string().required(),
     TOKENS_CONTRACT_ADDRESS: yup.string().required(),
     GETTERS_CONTRACT_ADDRESS: yup.string().required(),
-    WHITELIST_CONTRACT_ADDRESS: yup.string().required(),
     GPT_CREDIT_CONTRACT_ADDRESS: yup.string().required(),
     SCORING_CONTRACT_ADDRESS: yup.string(),
   })
