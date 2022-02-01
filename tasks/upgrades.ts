@@ -30,7 +30,6 @@ async function upgradeMulti({}, hre: HardhatRuntimeEnvironment) {
     TOKENS_CONTRACT_ADDRESS,
     GETTERS_CONTRACT_ADDRESS,
     GPT_CREDIT_CONTRACT_ADDRESS,
-    WHITELIST_CONTRACT_ADDRESS,
     START_BLOCK,
   } = hre.contracts;
 
@@ -74,7 +73,6 @@ async function upgradeMulti({}, hre: HardhatRuntimeEnvironment) {
     coreAddress: CORE_CONTRACT_ADDRESS,
     tokensAddress: TOKENS_CONTRACT_ADDRESS,
     gettersAddress: GETTERS_CONTRACT_ADDRESS,
-    whitelistAddress: WHITELIST_CONTRACT_ADDRESS,
     gptCreditAddress: GPT_CREDIT_CONTRACT_ADDRESS,
     scoringAddress: SCORING_CONTRACT_ADDRESS,
   });

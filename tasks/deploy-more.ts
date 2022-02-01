@@ -152,7 +152,6 @@ async function deployLibraries({}, hre: HardhatRuntimeEnvironment): Promise<Libr
 
 subtask('deploy:core', 'deploy and return tokens contract')
   .addParam('controllerWalletAddress', '', undefined, types.string)
-  .addParam('whitelistAddress', '', undefined, types.string)
   .addParam('tokensAddress', '', undefined, types.string)
   .addParam('initializeAddress', '', undefined, types.string)
   .addParam('planetAddress', '', undefined, types.string)
@@ -164,7 +163,6 @@ subtask('deploy:core', 'deploy and return tokens contract')
 async function deployCore(
   args: {
     controllerWalletAddress: string;
-    whitelistAddress: string;
     tokensAddress: string;
     initializeAddress: string;
     planetAddress: string;
@@ -187,7 +185,6 @@ async function deployCore(
     },
     contractArgs: [
       args.controllerWalletAddress,
-      args.whitelistAddress,
       args.tokensAddress,
       hre.initializers,
     ],

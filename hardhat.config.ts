@@ -20,7 +20,6 @@ import './tasks/subgraph';
 import './tasks/upgrades';
 import './tasks/utils';
 import './tasks/wallet';
-import './tasks/whitelist';
 
 require('dotenv').config();
 
