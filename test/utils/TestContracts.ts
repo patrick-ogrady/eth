@@ -8,14 +8,12 @@ import {
   DarkForestTokens,
   DarkForestUtils,
   Verifier,
-  Whitelist,
 } from '@darkforest_eth/contracts/typechain';
 import { ethers, upgrades } from 'hardhat';
 import * as yup from 'yup';
 import * as settings from '../../settings';
 
 export interface TestContracts {
-  whitelist: Whitelist;
   tokens: DarkForestTokens;
   verifier: Verifier;
   utils: DarkForestUtils;
@@ -28,23 +26,15 @@ export interface TestContracts {
 
 export interface InitializeContractArgs {
   initializers: yup.Asserts<typeof settings.Initializers>;
-  enableWhitelist?: boolean;
 }
 
 export async function initializeContracts({
-  enableWhitelist,
   initializers,
 }: InitializeContractArgs): Promise<TestContracts> {
   // silence all the linking warnings, ideally remove this someday
   upgrades.silenceWarnings();
 
   const [deployer] = await ethers.getSigners();
-
-  const WhitelistContract = await ethers.getContractFactory('Whitelist');
-  const whitelist = (await upgrades.deployProxy(WhitelistContract, [
-    deployer.address,
-    enableWhitelist,
-  ])) as Whitelist;
 
   const VerifierContract = await ethers.getContractFactory('Verifier');
   const verifier = await VerifierContract.deploy();
@@ -99,7 +89,7 @@ export async function initializeContracts({
   // or skip this check with the `unsafeAllowLinkedLibraries` flag
   const darkForestCore = (await upgrades.deployProxy(
     DarkForestCoreContract,
-    [deployer.address, whitelist.address, darkForestTokens.address, initializers],
+    [deployer.address, darkForestTokens.address, initializers],
     { unsafeAllowLinkedLibraries: true }
   )) as DarkForestCore;
 
@@ -136,7 +126,6 @@ export async function initializeContracts({
   ])) as DarkForestScoringRound3;
 
   return {
-    whitelist,
     tokens: darkForestTokens,
     verifier,
     utils: darkForestUtils,

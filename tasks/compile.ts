@@ -27,10 +27,6 @@ async function copyAbi(
     JSON.stringify((await hre.artifacts.readArtifact('DarkForestTokens')).abi),
     { semi: false, parser: 'json' }
   );
-  const whitelistAbi = prettier.format(
-    JSON.stringify((await hre.artifacts.readArtifact('Whitelist')).abi),
-    { semi: false, parser: 'json' }
-  );
   const gettersAbi = prettier.format(
     JSON.stringify((await hre.artifacts.readArtifact('DarkForestGetters')).abi),
     { semi: false, parser: 'json' }
@@ -51,7 +47,6 @@ async function copyAbi(
   // Save contract ABIs to client
   await fs.writeFile(path.join(abisDir, 'DarkForestCore.json'), coreAbi);
   await fs.writeFile(path.join(abisDir, 'DarkForestTokens.json'), tokensAbi);
-  await fs.writeFile(path.join(abisDir, 'Whitelist.json'), whitelistAbi);
   await fs.writeFile(path.join(abisDir, 'DarkForestGetters.json'), gettersAbi);
   await fs.writeFile(path.join(abisDir, 'DarkForestGPTCredit.json'), gptCreditAbi);
   await fs.writeFile(path.join(abisDir, 'DarkForestScoringRound3.json'), scoringAbi);

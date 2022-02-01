@@ -11,7 +11,6 @@ import type {
   DarkForestScoringRound3,
   DarkForestTokens,
   LibraryContracts,
-  Whitelist,
 } from '../task-types';
 
 subtask('deploy:getters', 'deploy and return getters')
@@ -41,25 +40,6 @@ async function deployGetters(
     // Linking external libraries like `DarkForestGetters` is not yet supported, or
     // skip this check with the `unsafeAllowLinkedLibraries` flag
     deployOptions: { unsafeAllowLinkedLibraries: true },
-    retries: 5,
-    hre,
-  });
-}
-
-subtask('deploy:whitelist', 'deploy and return whitelist')
-  .addParam('controllerWalletAddress', '', undefined, types.string)
-  .addParam('whitelistEnabled', '', undefined, types.boolean)
-  .setAction(deployWhitelist);
-
-async function deployWhitelist(
-  args: { controllerWalletAddress: string; whitelistEnabled: boolean },
-  hre: HardhatRuntimeEnvironment
-): Promise<Whitelist> {
-  return deployProxyWithRetry<Whitelist>({
-    contractName: 'Whitelist',
-    signerOrOptions: {},
-    contractArgs: [args.controllerWalletAddress, args.whitelistEnabled],
-    deployOptions: {},
     retries: 5,
     hre,
   });

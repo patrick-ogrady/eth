@@ -2,7 +2,6 @@ import {
   DarkForestCore,
   DarkForestGPTCredit,
   DarkForestScoringRound3,
-  Whitelist,
 } from '@darkforest_eth/contracts/typechain';
 import { SignerWithAddress } from '@nomiclabs/hardhat-ethers/dist/src/signer-with-address';
 import { BigNumber, utils } from 'ethers';
@@ -19,8 +18,6 @@ export interface World {
   deployer: SignerWithAddress;
   user1Core: DarkForestCore;
   user2Core: DarkForestCore;
-  user1Whitelist: Whitelist;
-  user2Whitelist: Whitelist;
   user1GPTCredit: DarkForestGPTCredit;
   user2GPTCredit: DarkForestGPTCredit;
   user1Scoring: DarkForestScoringRound3;
@@ -38,27 +35,23 @@ export interface Player {
 
 export interface InitializeWorldArgs {
   initializers: yup.Asserts<typeof settings.Initializers>;
-  enableWhitelist: boolean;
 }
 
 export function defaultWorldFixture(): Promise<World> {
   return initializeWorld({
     initializers,
-    enableWhitelist: false,
   });
 }
 
 export function growingWorldFixture(): Promise<World> {
   return initializeWorld({
     initializers: target4Initializers,
-    enableWhitelist: false,
   });
 }
 
 export function whilelistWorldFixture(): Promise<World> {
   return initializeWorld({
     initializers,
-    enableWhitelist: true,
   });
 }
 
@@ -80,8 +73,6 @@ export async function initializeWorld(args: InitializeWorldArgs): Promise<World>
     deployer,
     user1Core: contracts.core.connect(user1),
     user2Core: contracts.core.connect(user2),
-    user1Whitelist: contracts.whitelist.connect(user1),
-    user2Whitelist: contracts.whitelist.connect(user2),
     user1GPTCredit: contracts.gptCredits.connect(user1),
     user2GPTCredit: contracts.gptCredits.connect(user2),
     user1Scoring: contracts.scoring.connect(user1),
