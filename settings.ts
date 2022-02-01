@@ -265,6 +265,7 @@ export function load(network: string): { [key: string]: unknown } {
   }
   const result = explorer.search();
   if (result) {
+    console.info(chalk.yellow(`loaded config: ${JSON.stringify(result.config)}`));
     return result.config;
   } else {
     console.warn(chalk.yellow('Could not find `darkforest.toml` - using defaults.'));
@@ -275,6 +276,7 @@ export function load(network: string): { [key: string]: unknown } {
 // Util for generating a number representing seconds timestamp from input datetime
 function dateInSeconds() {
   return yup.number().transform(function (value, originalValue) {
+    console.log(chalk.yellow(`found time: ${originalValue}`));
     if (this.isType(value)) return value;
 
     return Math.floor(new Date(originalValue).getTime() / 1000);
