@@ -10,14 +10,11 @@ import type {
   DarkForestGPTCredit,
   DarkForestTokens,
   LibraryContracts,
-  Whitelist,
 } from '../task-types';
 import '../tasks/deploy-more';
 import { tscompile } from '../utils/tscompile';
 
 task('deploy', 'deploy all contracts')
-  .addOptionalParam('whitelist', 'override the whitelist', true, types.boolean)
-  .addOptionalParam('fund', 'amount of eth to fund whitelist contract for fund', 0.5, types.float)
   .addOptionalParam(
     'subgraph',
     'bring up subgraph with name (requires docker)',
@@ -27,7 +24,7 @@ task('deploy', 'deploy all contracts')
   .setAction(deploy);
 
 async function deploy(
-  args: { whitelist: boolean; fund: number; subgraph: string },
+  args: { subgraph: string },
   hre: HardhatRuntimeEnvironment
 ) {
   const isDev = hre.network.name === 'localhost';
@@ -57,15 +54,6 @@ async function deploy(
     );
   }
 
-  // deploy the whitelist contract
-  const whitelist: Whitelist = await hre.run('deploy:whitelist', {
-    controllerWalletAddress,
-    whitelistEnabled: args.whitelist,
-  });
-
-  const whitelistAddress = whitelist.address;
-  console.log('Whitelist deployed to:', whitelistAddress);
-
   // deploy the tokens contract
   const darkForestTokens: DarkForestTokens = await hre.run('deploy:tokens');
   const tokensAddress = darkForestTokens.address;
@@ -76,7 +64,6 @@ async function deploy(
   // deploy the core contract
   const darkForestCoreReturn: DarkForestCoreReturn = await hre.run('deploy:core', {
     controllerWalletAddress,
-    whitelistAddress,
     tokensAddress,
     initializeAddress: libraries.initialize.address,
     planetAddress: libraries.planet.address,
@@ -121,7 +108,6 @@ async function deploy(
     coreAddress,
     tokensAddress,
     gettersAddress,
-    whitelistAddress,
     gptCreditAddress,
     scoringAddress,
   });
@@ -132,20 +118,11 @@ async function deploy(
     console.log('transfered all contracts');
   }
 
-  // Note Ive seen `ProviderError: Internal error` when not enough money...
-  await deployer.sendTransaction({
-    to: whitelist.address,
-    value: hre.ethers.utils.parseEther(args.fund.toString()),
-  });
-  console.log(`Sent ${args.fund} to whitelist contract (${whitelist.address}) to fund drips`);
-
   if (args.subgraph) {
     await hre.run('subgraph:deploy', { name: args.subgraph });
     console.log('deployed subgraph');
   }
 
-  const whitelistBalance = await hre.ethers.provider.getBalance(whitelist.address);
-  console.log(`Whitelist balance ${whitelistBalance}`);
   console.log('Deployed successfully. Godspeed cadet.');
 }
 
@@ -158,7 +135,6 @@ async function deploySave(
     coreAddress: string;
     tokensAddress: string;
     gettersAddress: string;
-    whitelistAddress: string;
     gptCreditAddress: string;
     scoringAddress: string;
   },
@@ -249,10 +225,6 @@ async function deploySave(
    * The address for the DarkForestGetters contract.
    */
   export const GETTERS_CONTRACT_ADDRESS = '${args.gettersAddress}';
-  /**
-   * The address for the Whitelist contract.
-   */
-  export const WHITELIST_CONTRACT_ADDRESS = '${args.whitelistAddress}';
   /**
    * The address for the DarkForestGPTCredit contract.
    */

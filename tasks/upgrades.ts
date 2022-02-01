@@ -10,7 +10,6 @@ import type {
   DarkForestGPTCredit,
   DarkForestTokens,
   LibraryContracts,
-  Whitelist,
 } from '../task-types';
 
 // libraries (utils, in specific), is shared by DarkForestGetters and
@@ -31,7 +30,6 @@ async function upgradeMulti({}, hre: HardhatRuntimeEnvironment) {
     TOKENS_CONTRACT_ADDRESS,
     GETTERS_CONTRACT_ADDRESS,
     GPT_CREDIT_CONTRACT_ADDRESS,
-    WHITELIST_CONTRACT_ADDRESS,
     START_BLOCK,
   } = hre.contracts;
 
@@ -45,17 +43,6 @@ async function upgradeMulti({}, hre: HardhatRuntimeEnvironment) {
   });
 
   console.log('upgraded DarkForestGPTCredit');
-
-  await upgradeProxyWithRetry<Whitelist>({
-    contractName: 'Whitelist',
-    contractAddress: WHITELIST_CONTRACT_ADDRESS,
-    signerOrOptions: {},
-    deployOptions: {},
-    retries: 5,
-    hre,
-  });
-
-  console.log('upgraded Whitelist');
 
   const libraries: LibraryContracts = await hre.run('deploy:libraries');
 
@@ -86,7 +73,6 @@ async function upgradeMulti({}, hre: HardhatRuntimeEnvironment) {
     coreAddress: CORE_CONTRACT_ADDRESS,
     tokensAddress: TOKENS_CONTRACT_ADDRESS,
     gettersAddress: GETTERS_CONTRACT_ADDRESS,
-    whitelistAddress: WHITELIST_CONTRACT_ADDRESS,
     gptCreditAddress: GPT_CREDIT_CONTRACT_ADDRESS,
     scoringAddress: SCORING_CONTRACT_ADDRESS,
   });
@@ -234,26 +220,6 @@ async function getImplementationAddressTask(
   console.log(`implementation address: ` + implementationAddress);
 
   return implementationAddress;
-}
-
-task('upgrade:whitelist', 'upgrade Whitelist contract (only)').setAction(upgradeWhitelist);
-
-async function upgradeWhitelist({}, hre: HardhatRuntimeEnvironment) {
-  await hre.run('utils:assertChainId');
-
-  // need to force a compile for tasks
-  await hre.run('compile');
-
-  const { WHITELIST_CONTRACT_ADDRESS } = hre.contracts;
-
-  await upgradeProxyWithRetry<Whitelist>({
-    contractName: 'Whitelist',
-    contractAddress: WHITELIST_CONTRACT_ADDRESS,
-    signerOrOptions: {},
-    deployOptions: {},
-    retries: 5,
-    hre,
-  });
 }
 
 async function upgradeProxyWithRetry<C extends Contract>({

@@ -9,7 +9,6 @@ import type {
   DarkForestTokens,
   DarkForestUtils,
   Verifier,
-  Whitelist,
 } from '@darkforest_eth/contracts/typechain';
 import type { Contract } from 'ethers';
 
@@ -22,7 +21,6 @@ export {
   DarkForestGPTCredit,
   DarkForestArtifactUtils,
   Verifier,
-  Whitelist,
   DarkForestScoringRound3,
 };
 

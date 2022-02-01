@@ -11,7 +11,6 @@ import type {
   DarkForestScoringRound3,
   DarkForestTokens,
   LibraryContracts,
-  Whitelist,
 } from '../task-types';
 
 subtask('deploy:getters', 'deploy and return getters')
@@ -41,25 +40,6 @@ async function deployGetters(
     // Linking external libraries like `DarkForestGetters` is not yet supported, or
     // skip this check with the `unsafeAllowLinkedLibraries` flag
     deployOptions: { unsafeAllowLinkedLibraries: true },
-    retries: 5,
-    hre,
-  });
-}
-
-subtask('deploy:whitelist', 'deploy and return whitelist')
-  .addParam('controllerWalletAddress', '', undefined, types.string)
-  .addParam('whitelistEnabled', '', undefined, types.boolean)
-  .setAction(deployWhitelist);
-
-async function deployWhitelist(
-  args: { controllerWalletAddress: string; whitelistEnabled: boolean },
-  hre: HardhatRuntimeEnvironment
-): Promise<Whitelist> {
-  return deployProxyWithRetry<Whitelist>({
-    contractName: 'Whitelist',
-    signerOrOptions: {},
-    contractArgs: [args.controllerWalletAddress, args.whitelistEnabled],
-    deployOptions: {},
     retries: 5,
     hre,
   });
@@ -172,7 +152,6 @@ async function deployLibraries({}, hre: HardhatRuntimeEnvironment): Promise<Libr
 
 subtask('deploy:core', 'deploy and return tokens contract')
   .addParam('controllerWalletAddress', '', undefined, types.string)
-  .addParam('whitelistAddress', '', undefined, types.string)
   .addParam('tokensAddress', '', undefined, types.string)
   .addParam('initializeAddress', '', undefined, types.string)
   .addParam('planetAddress', '', undefined, types.string)
@@ -184,7 +163,6 @@ subtask('deploy:core', 'deploy and return tokens contract')
 async function deployCore(
   args: {
     controllerWalletAddress: string;
-    whitelistAddress: string;
     tokensAddress: string;
     initializeAddress: string;
     planetAddress: string;
@@ -207,7 +185,6 @@ async function deployCore(
     },
     contractArgs: [
       args.controllerWalletAddress,
-      args.whitelistAddress,
       args.tokensAddress,
       hre.initializers,
     ],

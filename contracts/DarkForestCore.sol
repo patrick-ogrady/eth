@@ -61,12 +61,10 @@ contract DarkForestCore is Initializable, DarkForestStorageV1 {
 
     function initialize(
         address _adminAddress,
-        address payable _whitelistAddress,
         address payable _tokensAddress,
         DarkForestTypes.DFInitArgs memory initArgs
     ) public initializer {
         s.adminAddress = _adminAddress;
-        s.whitelist = Whitelist(_whitelistAddress);
         s.tokens = DarkForestTokens(_tokensAddress);
 
         s.planetLevelsCount = 10;
@@ -135,14 +133,6 @@ contract DarkForestCore is Initializable, DarkForestStorageV1 {
     //////////////////////
     modifier onlyAdmin() {
         require(msg.sender == s.adminAddress, "Sender is not a game master");
-        _;
-    }
-
-    modifier onlyWhitelisted() {
-        require(
-            s.whitelist.isWhitelisted(msg.sender) || msg.sender == s.adminAddress,
-            "Player is not whitelisted"
-        );
         _;
     }
 
@@ -291,7 +281,7 @@ contract DarkForestCore is Initializable, DarkForestStorageV1 {
         uint256[2][2] memory _b,
         uint256[2] memory _c,
         uint256[9] memory _input
-    ) public onlyWhitelisted returns (uint256) {
+    ) public returns (uint256) {
         require(checkRevealProof(_a, _b, _c, _input), "Failed reveal pf check");
 
         if (!s.planetsExtendedInfo[_input[0]].isInitialized) {
@@ -313,7 +303,7 @@ contract DarkForestCore is Initializable, DarkForestStorageV1 {
         uint256[2][2] memory _b,
         uint256[2] memory _c,
         uint256[8] memory _input
-    ) public onlyWhitelisted returns (uint256) {
+    ) public returns (uint256) {
         if (!s.snarkConstants.DISABLE_ZK_CHECKS) {
             require(Verifier.verifyInitProof(_a, _b, _c, _input), "Failed init proof check");
         }
