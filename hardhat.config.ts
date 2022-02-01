@@ -54,34 +54,23 @@ extendEnvironment((env: HardhatRuntimeEnvironment) => {
   });
 });
 
-// The xdai config, but it isn't added to networks unless we have a DEPLOYER_MNEMONIC
-const xdai = {
+// The wagmi config, but it isn't added to networks unless we have a DEPLOYER_MNEMONIC
+const wagmi = {
   // Using our archive node for admin task running
-  url: 'https://rpc-df.xdaichain.com/',
+  url: 'https://api.trywagmi.xyz/rpc',
   accounts: {
     mnemonic: DEPLOYER_MNEMONIC,
   },
-  chainId: 100,
-};
-
-// The mainnet config, but it isn't added to networks unless we have a DEPLOYER_MNEMONIC
-const mainnet = {
-  // Brian's Infura endpoint (free tier)
-  url: 'https://mainnet.infura.io/v3/5459b6d562eb47f689c809fe0b78408e',
-  accounts: {
-    mnemonic: DEPLOYER_MNEMONIC,
-  },
-  chainId: 1,
+  chainId: 11111,
 };
 
 const config: HardhatUserConfig = {
   defaultNetwork: 'hardhat',
   networks: {
-    // Check for a DEPLOYER_MNEMONIC before we add xdai/mainnet network to the list of networks
-    // Ex: If you try to deploy to xdai without DEPLOYER_MNEMONIC, you'll see this error:
-    // > Error HH100: Network xdai doesn't exist
-    ...(DEPLOYER_MNEMONIC ? { xdai } : undefined),
-    ...(DEPLOYER_MNEMONIC ? { mainnet } : undefined),
+    // Check for a DEPLOYER_MNEMONIC before we add wagmi network to the list of networks
+    // Ex: If you try to deploy to wagmi without DEPLOYER_MNEMONIC, you'll see this error:
+    // > Error HH100: Network wagmi doesn't exist
+    ...(DEPLOYER_MNEMONIC ? { wagmi } : undefined),
     localhost: {
       url: 'http://localhost:8545/',
       accounts: {
