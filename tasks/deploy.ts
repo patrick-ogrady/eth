@@ -81,8 +81,8 @@ async function deploy(
     controllerWalletAddress,
     `${
       isDev
-        ? 'https://darkforest-test.netlify.app/dev/token-uri/artifact/'
-        : 'https://darkforest-test.netlify.app/prod/token-uri/artifact/'
+        ? 'https://nft-test.zkga.me/token-uri/artifact/'
+        : 'https://nft.zkga.me/token-uri/artifact/'
     }${hre.network.config?.chainId || 'unknown'}-${darkForestTokens.address}/`
   );
   await dftReceipt.wait();
