@@ -62,7 +62,7 @@
     "circom:dev": "hardhat circom --deterministic --verbose",
     "subgraph:template:dev": "yarn hardhat:dev subgraph:codegen",
     "subgraph:template:prod": "yarn hardhat:prod subgraph:codegen",
-    "subgraph:create": "cd subgraph && graph create patrick-ogrady/darkforest-wagmi --node http://localhost:8020",
-    "subgraph:deploy:prod": "cd subgraph && graph deploy patrick-ogrady/darkforest-wagmi --node http://localhost:8020 --ipfs http://localhost:5001"
+    "subgraph:create": "cd subgraph && graph create patrick-ogrady/darkforest-wagmi-n --node  http://localhost:8020",
+    "subgraph:deploy:prod": "cd subgraph && graph deploy patrick-ogrady/darkforest-wagmi-n --node http://localhost:8020 --ipfs https://api.thegraph.com/ipfs/"
   }
 }
